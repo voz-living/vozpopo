@@ -45,11 +45,43 @@ function getDataURL() {
 
 function save_Img() {
   var data = getDataURL();
-  if (!data) {
+  if (data !== false) {
     window.open(data);
   }
 }
 
 function save_imgur() {
+  var form = new FormData();
+  var data = getDataURL();
+  if (data === false) return;
+  data = data.substr(21);
+  form.append("image", data);
+  form.append("title", "Popo Vozer Icon");
+  form.append("description", "#voz_living_popo creation at " + new Date().getTime());
+  
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://api.imgur.com/3/image",
+    "method": "POST",
+    "headers": {
+      "authorization": "Client-ID c7ae784606967cc"
+    },
+    "processData": false,
+    "contentType": false,
+    "mimeType": "multipart/form-data",
+    "data": form
+  }
 
+  $("#imgur_link").html('Uploading ...');
+  $("#btnUpload").attr("disabled", true);
+
+  $.ajax(settings).done(function (response) {
+    $("#btnUpload").attr("disabled", false);
+    if (typeof response === "string") response = JSON.parse(response);
+    var link = response.data.link;
+    var a = $('<a href="' + link + '" target="_blank">' + link + '</a>')
+    $("#imgur_link").empty();
+    $("#imgur_link").append(a);
+  });
 }
