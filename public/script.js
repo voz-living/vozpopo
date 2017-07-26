@@ -9,7 +9,7 @@ var imgCanvas = {
   "imgCanvasHands": null,
   "imgCanvasOthers": null
 }
-canvas.setBackgroundImage('icon-elements/face-default.png', canvas.renderAll.bind(canvas), {
+canvas.setBackgroundImage('public/icon-elements/face-default.png', canvas.renderAll.bind(canvas), {
   backgroundImageStretch: false
 });
 $(".icon").click(function () {
